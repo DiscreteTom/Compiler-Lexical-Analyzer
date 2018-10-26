@@ -19,10 +19,10 @@ NotationType Automata::nextNotationType()
 {
 	state = NORMAL;
 	bool flag = true; //continue loop
-	char c;
+	char c = 0;
 	num = decimal = 0;
 	token = "";
-	while (flag && !fin.eof())
+	while (flag && c != EOF)
 	{
 		switch (state)
 		{
@@ -30,12 +30,12 @@ NotationType Automata::nextNotationType()
 			c = buf.nextNbChar();
 			if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_')
 			{
-				state = TOKEN;
+				state = IS_TOKEN;
 				token = c;
 			}
 			else if (c >= '1' && c <= '9')
 			{
-				state = INT_NORMAL;
+				state = IS_INT_NORMAL;
 				num = c - '0';
 			}
 			else
@@ -43,7 +43,7 @@ NotationType Automata::nextNotationType()
 				switch (c)
 				{
 				case '0':
-					state = INT_FIRST_0;
+					state = IS_INT_FIRST_0;
 					break;
 				case '=':
 					state = HAS_EQ;
@@ -82,10 +82,10 @@ NotationType Automata::nextNotationType()
 					state = HAS_XOR;
 					break;
 				case '\'':
-					state = LTR_CHAR;
+					state = IS_LTR_CHAR;
 					break;
 				case '"':
-					state = LTR_STR;
+					state = IS_LTR_STR;
 					break;
 				case '.':
 					state = HAS_DOT;
@@ -146,7 +146,7 @@ NotationType Automata::nextNotationType()
 			}
 			break;
 		case MULTI_NOTE:
-			while (state == MULTI_NOTE && !fin.eof())
+			while (state == MULTI_NOTE && c != EOF)
 			{
 				c = buf.nextChar();
 				if (c == '*')
@@ -154,7 +154,7 @@ NotationType Automata::nextNotationType()
 			}
 			break;
 		case SINGLE_NOTE:
-			while (state == SINGLE_NOTE && !fin.eof())
+			while (state == SINGLE_NOTE && c != EOF)
 			{
 				c = buf.nextChar();
 				if (c == '\n')
@@ -181,7 +181,7 @@ NotationType Automata::nextNotationType()
 				currentType = OP;
 				currentOperator = ASN_NORMAL;
 				state = NORMAL;
-				retract();
+				buf.retract();
 				return currentType;
 			}
 			break;
@@ -201,7 +201,7 @@ NotationType Automata::nextNotationType()
 				currentType = OP;
 				currentOperator = REL_GT;
 				state = NORMAL;
-				retract();
+				buf.retract();
 				return currentType;
 			}
 			break;
@@ -221,7 +221,7 @@ NotationType Automata::nextNotationType()
 				currentType = OP;
 				currentOperator = REL_LS;
 				state = NORMAL;
-				retract();
+				buf.retract();
 				return currentType;
 			}
 			break;
@@ -238,7 +238,7 @@ NotationType Automata::nextNotationType()
 			{
 				currentType = OP;
 				currentOperator = LOG_NOT;
-				retract();
+				buf.retract();
 				state = NORMAL;
 				return currentType;
 			}
@@ -261,7 +261,7 @@ NotationType Automata::nextNotationType()
 				currentType = OP;
 				currentOperator = MATH_ADD;
 				state = NORMAL;
-				retract();
+				buf.retract();
 				return currentType;
 			}
 			break;
@@ -288,7 +288,7 @@ NotationType Automata::nextNotationType()
 				currentType = OP;
 				currentOperator = MATH_SUB;
 				state = NORMAL;
-				retract();
+				buf.retract();
 				return currentType;
 			}
 			break;
@@ -310,7 +310,7 @@ NotationType Automata::nextNotationType()
 				currentType = OP;
 				currentOperator = BIT_AND;
 				state = NORMAL;
-				retract();
+				buf.retract();
 				return currentType;
 			}
 			break;
@@ -332,7 +332,7 @@ NotationType Automata::nextNotationType()
 				currentType = OP;
 				currentOperator = BIT_OR;
 				state = NORMAL;
-				retract();
+				buf.retract();
 				return currentType;
 			}
 			break;
@@ -349,7 +349,7 @@ NotationType Automata::nextNotationType()
 				currentType = OP;
 				currentOperator = MATH_MUL;
 				state = NORMAL;
-				retract();
+				buf.retract();
 				return currentType;
 			}
 			break;
@@ -372,7 +372,7 @@ NotationType Automata::nextNotationType()
 				currentType = OP;
 				currentOperator = MATH_DIV;
 				state = NORMAL;
-				retract();
+				buf.retract();
 				return currentType;
 			}
 			break;
@@ -389,7 +389,7 @@ NotationType Automata::nextNotationType()
 				currentType = OP;
 				currentOperator = MATH_MOD;
 				state = NORMAL;
-				retract();
+				buf.retract();
 				return currentType;
 			}
 			break;
@@ -406,7 +406,7 @@ NotationType Automata::nextNotationType()
 				currentType = OP;
 				currentOperator = BIT_LS;
 				state = NORMAL;
-				retract();
+				buf.retract();
 				return currentType;
 			}
 			break;
@@ -423,7 +423,7 @@ NotationType Automata::nextNotationType()
 				currentType = OP;
 				currentOperator = BIT_RS;
 				state = NORMAL;
-				retract();
+				buf.retract();
 				return currentType;
 			}
 			break;
@@ -440,7 +440,7 @@ NotationType Automata::nextNotationType()
 				currentType = OP;
 				currentOperator = BIT_XOR;
 				state = NORMAL;
-				retract();
+				buf.retract();
 				return currentType;
 			}
 			break;
@@ -448,7 +448,7 @@ NotationType Automata::nextNotationType()
 			c = buf.nextChar();
 			if (c >= '0' && c <= '9')
 			{
-				state = DOUBLE_NORMAL;
+				state = IS_DOUBLE_NORMAL;
 				point = 0;
 				decimal = c - '0';
 				decimal /= 10;
@@ -461,17 +461,17 @@ NotationType Automata::nextNotationType()
 				return currentType;
 			}
 			break;
-		case State::TOKEN:
+		case IS_TOKEN:
 			c = buf.nextChar();
 			while ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_')
 			{
 				token += c;
 			}
-			retract();
+			buf.retract();
 			currentType = NotationType::TOKEN;
 			return currentType;
 			break;
-		case State::LTR_CHAR:
+		case IS_LTR_CHAR:
 			c = buf.nextChar();
 			if (c == '\'')
 			{
@@ -482,11 +482,11 @@ NotationType Automata::nextNotationType()
 			}
 			else if (c == '\\')
 			{
-				state = LTR_CHAR_ESC;
+				state = IS_LTR_CHAR_ESC;
 			}
 			else if (c >= 32 && c <= 126)
 			{
-				state = LTR_CHAR_1;
+				state = IS_LTR_CHAR_1;
 				token = c;
 			}
 			else
@@ -497,53 +497,53 @@ NotationType Automata::nextNotationType()
 				token = "";
 			}
 			break;
-		case LTR_CHAR_ESC:
+		case IS_LTR_CHAR_ESC:
 			c = buf.nextChar();
 			switch (c)
 			{
 			case 'a':
 				token = '\a';
-				state = LTR_CHAR_1;
+				state = IS_LTR_CHAR_1;
 				break;
 			case 'b':
 				token = '\b';
-				state = LTR_CHAR_1;
+				state = IS_LTR_CHAR_1;
 				break;
 			case 'f':
 				token = '\f';
-				state = LTR_CHAR_1;
+				state = IS_LTR_CHAR_1;
 				break;
 			case 'n':
 				token = '\n';
-				state = LTR_CHAR_1;
+				state = IS_LTR_CHAR_1;
 				break;
 			case 'r':
 				token = '\r';
-				state = LTR_CHAR_1;
+				state = IS_LTR_CHAR_1;
 				break;
 			case 't':
 				token = '\t';
-				state = LTR_CHAR_1;
+				state = IS_LTR_CHAR_1;
 				break;
 			case 'v':
 				token = '\v';
-				state = LTR_CHAR_1;
+				state = IS_LTR_CHAR_1;
 				break;
 			case '\\':
 				token = '\\';
-				state = LTR_CHAR_1;
+				state = IS_LTR_CHAR_1;
 				break;
 			case '\'':
 				token = '\'';
-				state = LTR_CHAR_1;
+				state = IS_LTR_CHAR_1;
 				break;
 			case '"':
 				token = '\"';
-				state = LTR_CHAR_1;
+				state = IS_LTR_CHAR_1;
 				break;
 			case '0':
 				token = '\0';
-				state = LTR_CHAR_1;
+				state = IS_LTR_CHAR_1;
 				break;
 			default:
 				setError("Can not recognize this escaped char");
@@ -553,7 +553,7 @@ NotationType Automata::nextNotationType()
 				break;
 			}
 			break;
-		case LTR_CHAR_1:
+		case IS_LTR_CHAR_1:
 			c = buf.nextChar();
 			if (c == '\'')
 			{
@@ -563,12 +563,12 @@ NotationType Automata::nextNotationType()
 			}
 			else if (c == '\\')
 			{
-				setWarning("multi-character character constant");
-				state = LTR_CHAR_ESC;
+				buf.setWarning("multi-character character constant");
+				state = IS_LTR_CHAR_ESC;
 			}
 			else if (c >= 32 && c <= 126)
 			{
-				setWarning("multi-character character constant");
+				buf.setWarning("multi-character character constant");
 			}
 			else
 			{
@@ -578,7 +578,7 @@ NotationType Automata::nextNotationType()
 				num = decimal = 0;
 			}
 			break;
-		case State::LTR_STR:
+		case IS_LTR_STR:
 			c = buf.nextChar();
 			while (c != EOF && c != '\"' && c != '\\')
 			{
@@ -588,61 +588,61 @@ NotationType Automata::nextNotationType()
 			if (c == '\"')
 			{
 				state = NORMAL;
-				currentType = NotationType::LTR_STR;
+				currentType = LTR_STR;
 				return currentType;
 			}
 			else if (c == '\\')
 			{
-				state = LTR_STR_ESC;
+				state = IS_LTR_STR_ESC;
 			}
 			break;
-		case LTR_STR_ESC:
+		case IS_LTR_STR_ESC:
 			c = buf.nextChar();
 			switch (c)
 			{
 			case 'a':
 				token += '\a';
-				state = LTR_STR;
+				state = IS_LTR_STR;
 				break;
 			case 'b':
 				token += '\b';
-				state = LTR_STR;
+				state = IS_LTR_STR;
 				break;
 			case 'f':
 				token += '\f';
-				state = LTR_STR;
+				state = IS_LTR_STR;
 				break;
 			case 'n':
 				token += '\n';
-				state = LTR_STR;
+				state = IS_LTR_STR;
 				break;
 			case 'r':
 				token += '\r';
-				state = LTR_STR;
+				state = IS_LTR_STR;
 				break;
 			case 't':
 				token += '\t';
-				state = LTR_STR;
+				state = IS_LTR_STR;
 				break;
 			case 'v':
 				token += '\v';
-				state = LTR_STR;
+				state = IS_LTR_STR;
 				break;
 			case '\\':
 				token += '\\';
-				state = LTR_STR;
+				state = IS_LTR_STR;
 				break;
 			case '\'':
 				token += '\'';
-				state = LTR_STR;
+				state = IS_LTR_STR;
 				break;
 			case '"':
 				token += '\"';
-				state = LTR_STR;
+				state = IS_LTR_STR;
 				break;
 			case '0':
 				token += '\0';
-				state = LTR_STR;
+				state = IS_LTR_STR;
 				break;
 			default:
 				setError("Can not recognize this escaped char");
@@ -652,7 +652,7 @@ NotationType Automata::nextNotationType()
 				break;
 			}
 			break;
-		case INT_NORMAL:
+		case IS_INT_NORMAL:
 			c = buf.nextChar();
 			while (c >= '0' && c <= '9')
 			{
@@ -668,7 +668,7 @@ NotationType Automata::nextNotationType()
 			if (num > 0)
 			{
 				if (c == '.')
-					state = DOUBLE_NORMAL;
+					state = IS_DOUBLE_NORMAL;
 				decimal = num;
 				point = 0;
 			}
@@ -679,7 +679,7 @@ NotationType Automata::nextNotationType()
 			}
 			else
 			{
-				retract();
+				buf.retract();
 				state = NORMAL;
 				if (num < INT_MAX)
 				{
@@ -696,35 +696,35 @@ NotationType Automata::nextNotationType()
 				return currentType;
 			}
 			break;
-		case INT_FIRST_0:
+		case IS_INT_FIRST_0:
 			c = buf.nextChar();
 			if (c == 'b')
 			{
-				state = INT_BI;
+				state = IS_INT_BI;
 			}
 			else if (c == 'x')
 			{
-				state = INT_HEX;
+				state = IS_INT_HEX;
 			}
 			else if (c >= '0' && c <= '7')
 			{
-				retract();
-				state = INT_OCT;
+				buf.retract();
+				state = IS_INT_OCT;
 			}
 			else if (c == '.')
 			{
-				state = DOUBLE_NORMAL;
+				state = IS_DOUBLE_NORMAL;
 				decimal = 0;
 			}
 			else
 			{
-				retract();
+				buf.retract();
 				num = 0;
 				currentType = LTR_INT;
 				return currentType;
 			}
 			break;
-		case INT_HEX:
+		case IS_INT_HEX:
 			c = buf.nextChar();
 			if (c >= '0' && c <= '9')
 			{
@@ -755,7 +755,7 @@ NotationType Automata::nextNotationType()
 			}
 			else
 			{
-				retract();
+				buf.retract();
 				if (num < 0)
 				{
 					//overflow
@@ -774,13 +774,13 @@ NotationType Automata::nextNotationType()
 					}
 					else
 					{
-						currentType = LLONG_MAX;
+						currentType = LTR_LL;
 					}
 					return currentType;
 				}
 			}
 			break;
-		case INT_OCT:
+		case IS_INT_OCT:
 			c = buf.nextChar();
 			if (c >= '0' && c <= '7')
 			{
@@ -805,7 +805,7 @@ NotationType Automata::nextNotationType()
 			}
 			else
 			{
-				retract();
+				buf.retract();
 				if (num < 0)
 				{
 					//overflow
@@ -824,13 +824,13 @@ NotationType Automata::nextNotationType()
 					}
 					else
 					{
-						currentType = LLONG_MAX;
+						currentType = LTR_LL;
 					}
 					return currentType;
 				}
 			}
 			break;
-		case INT_BI:
+		case IS_INT_BI:
 			c = buf.nextChar();
 			if (c == '0' || c == '1')
 			{
@@ -855,7 +855,7 @@ NotationType Automata::nextNotationType()
 			}
 			else
 			{
-				retract();
+				buf.retract();
 				if (num < 0)
 				{
 					//overflow
@@ -874,42 +874,42 @@ NotationType Automata::nextNotationType()
 					}
 					else
 					{
-						currentType = LLONG_MAX;
+						currentType = LTR_LL;
 					}
 					return currentType;
 				}
 			}
 			break;
-		case INT_EXP:
+		case IS_INT_EXP:
 			c = buf.nextChar();
 			if (c == '+')
 			{
 				exp = 0;
-				state = INT_EXP_P;
+				state = IS_INT_EXP_P;
 			}
 			else if (c == '-')
 			{
 				exp = 0;
-				state = INT_EXP_N;
+				state = IS_INT_EXP_N;
 			}
 			else if (c >= '0' && c <= '9')
 			{
-				retract();
-				state = INT_EXP_P;
+				buf.retract();
+				state = IS_INT_EXP_P;
 			}
 			else
 			{
 				setError("Wrong char in exponential expression");
 			}
 			break;
-		case INT_EXP_P:
+		case IS_INT_EXP_P:
 			c = buf.nextChar();
 			while (c >= '0' && c <= '9')
 			{
 				exp *= 10;
 				exp += c - '0';
 			}
-			retract();
+			buf.retract();
 			if (exp < 0)
 			{
 				setError("Exponential number overflow");
@@ -944,14 +944,14 @@ NotationType Automata::nextNotationType()
 				}
 			}
 			break;
-		case INT_EXP_N:
+		case IS_INT_EXP_N:
 			c = buf.nextChar();
 			while (c >= '0' && c <= '9')
 			{
 				exp *= 10;
 				exp += c - '0';
 			}
-			retract();
+			buf.retract();
 			decimal = num;
 			if (exp < 0)
 			{
@@ -983,7 +983,7 @@ NotationType Automata::nextNotationType()
 				}
 			}
 			break;
-		case DOUBLE_NORMAL:
+		case IS_DOUBLE_NORMAL:
 			c = buf.nextChar();
 			while (c != EOF && (c >= '0' && c <= '9'))
 			{
@@ -997,11 +997,11 @@ NotationType Automata::nextNotationType()
 			}
 			if (c == 'e')
 			{
-				state = DOUBLE_EXP;
+				state = IS_DOUBLE_EXP;
 			}
 			else
 			{
-				retract();
+				buf.retract();
 				state = NORMAL;
 				if (decimal < FLT_MAX)
 					currentType = LTR_FLOAT;
@@ -1010,35 +1010,35 @@ NotationType Automata::nextNotationType()
 				return currentType;
 			}
 			break;
-		case DOUBLE_EXP:
+		case IS_DOUBLE_EXP:
 			c = buf.nextChar();
 			exp = 0;
 			if (c == '+')
 			{
-				state = DOUBLE_EXP_P;
+				state = IS_DOUBLE_EXP_P;
 			}
 			else if (c >= '0' && c <= '9')
 			{
-				retract();
-				state = DOUBLE_EXP_P;
+				buf.retract();
+				state = IS_DOUBLE_EXP_P;
 			}
 			else if (c == '-')
 			{
-				state = DOUBLE_EXP_N;
+				state = IS_DOUBLE_EXP_N;
 			}
 			else
 			{
 				setError("Wrong format for literal number");
 			}
 			break;
-		case DOUBLE_EXP_P:
+		case IS_DOUBLE_EXP_P:
 			c = buf.nextChar();
 			while (c >= '0' && c <= '9')
 			{
 				exp *= 10;
 				exp += c - '0';
 			}
-			retract();
+			buf.retract();
 			if (exp < 0)
 			{
 				setError("Exponential number overflow");
@@ -1069,14 +1069,14 @@ NotationType Automata::nextNotationType()
 				}
 			}
 			break;
-		case DOUBLE_EXP_N:
+		case IS_DOUBLE_EXP_N:
 			c = buf.nextChar();
 			while (c >= '0' && c <= '9')
 			{
 				exp *= 10;
 				exp += c - '0';
 			}
-			retract();
+			buf.retract();
 			if (exp < 0)
 			{
 				setError("Exponential number overflow");

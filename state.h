@@ -25,24 +25,24 @@ enum State
 	HAS_XOR, //has '^'
 	HAS_DOT, // has '.'
 	//===================== about identifier and keyword
-	TOKEN,
+	IS_TOKEN,
 	//====================== literal char and string
-	LTR_CHAR,
-	LTR_CHAR_ESC,		// escape character
-	LTR_CHAR_1, //has one char
-	LTR_STR,
-	LTR_STR_ESC,
+	IS_LTR_CHAR,
+	IS_LTR_CHAR_ESC,		// escape character
+	IS_LTR_CHAR_1, //has one char
+	IS_LTR_STR,
+	IS_LTR_STR_ESC,
 	//====================== literal number
-	INT_NORMAL,
-	INT_FIRST_0, // has '0', maybe hex or oct or binary
-	INT_HEX,		 // has "0x"
-	INT_OCT,		 //has "0o"
-	INT_BI,			 // has '0b
-	INT_EXP,		 // has 'e'
-	INT_EXP_P;	 // has "e+"
-	INT_EXP_N,	 // has "e-"
-	DOUBLE_NORMAL,
-	DOUBLE_EXP,		// has 'e'
-	DOUBLE_EXP_P, // has "e+"
-	DOUBLE_EXP_N	//has "e-"
+	IS_INT_NORMAL,
+	IS_INT_FIRST_0, // has '0', maybe hex or oct or binary
+	IS_INT_HEX,		 // has "0x"
+	IS_INT_OCT,		 //has "0o"
+	IS_INT_BI,			 // has '0b
+	IS_INT_EXP,		 // has 'e'
+	IS_INT_EXP_P,	 // has "e+"
+	IS_INT_EXP_N,	 // has "e-"
+	IS_DOUBLE_NORMAL,
+	IS_DOUBLE_EXP,		// has 'e'
+	IS_DOUBLE_EXP_P, // has "e+"
+	IS_DOUBLE_EXP_N	//has "e-"
 };

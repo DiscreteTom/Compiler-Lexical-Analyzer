@@ -23,7 +23,7 @@ enum NotationType
 	LTR_STR,	 // literal string
 	LTR_INT,	 // literal int
 	LTR_L,		 // literal long
-	LRT_LL,		 // literal long long
+	LTR_LL,		 // literal long long
 	LTR_FLOAT, // literal float
 	LTR_DOUBLE // literal double
 };
