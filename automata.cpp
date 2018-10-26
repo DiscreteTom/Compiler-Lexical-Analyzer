@@ -1109,4 +1109,6 @@ NotationType Automata::nextNotationType()
 			break;
 		}
 	}
+	// reach EOF
+	return END;
 }
