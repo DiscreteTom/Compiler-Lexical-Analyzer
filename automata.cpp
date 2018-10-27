@@ -90,6 +90,10 @@ NotationType Automata::nextNotationType()
 				case '.':
 					state = HAS_DOT;
 					break;
+				case '#':
+					currentType = OP;
+					currentOperator = PRE;
+					return currentType;
 				case '(':
 					currentType = BD;
 					currentBound = L_parenthese;
@@ -137,10 +141,7 @@ NotationType Automata::nextNotationType()
 					token = "Can't recognize '";
 					token += c;
 					token += "' in this file";
-					buf.setError(token);
-					token = "";
-					state = NORMAL;
-					num = decimal = 0;
+					setError(token);
 					break;
 				}
 			}
@@ -475,10 +476,7 @@ NotationType Automata::nextNotationType()
 			c = buf.nextChar();
 			if (c == '\'')
 			{
-				buf.setError("no character here");
-				state = NORMAL;
-				num = decimal = 0;
-				token = "";
+				setError("no character here");
 			}
 			else if (c == '\\')
 			{
@@ -491,10 +489,7 @@ NotationType Automata::nextNotationType()
 			}
 			else
 			{
-				state = NORMAL;
-				buf.setError("Can not recognize character");
-				num = decimal = 0;
-				token = "";
+				setError("Can not recognize character");
 			}
 			break;
 		case IS_LTR_CHAR_ESC:
@@ -547,9 +542,6 @@ NotationType Automata::nextNotationType()
 				break;
 			default:
 				setError("Can not recognize this escaped char");
-				state = NORMAL;
-				token = "";
-				num = decimal = 0;
 				break;
 			}
 			break;
@@ -573,9 +565,6 @@ NotationType Automata::nextNotationType()
 			else
 			{
 				setError("Can not recognize character");
-				state = NORMAL;
-				token = "";
-				num = decimal = 0;
 			}
 			break;
 		case IS_LTR_STR:
@@ -646,9 +635,6 @@ NotationType Automata::nextNotationType()
 				break;
 			default:
 				setError("Can not recognize this escaped char");
-				state = NORMAL;
-				token = "";
-				num = decimal = 0;
 				break;
 			}
 			break;
@@ -674,8 +660,7 @@ NotationType Automata::nextNotationType()
 			}
 			else if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_')
 			{
-				buf.setError("Token can NOT start with number");
-				state = NORMAL;
+				setError("Token can NOT start with number");
 			}
 			else
 			{
