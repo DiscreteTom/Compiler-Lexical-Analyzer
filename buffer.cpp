@@ -1,4 +1,5 @@
 #include "buffer.h"
+#include <iostream>
 
 Buffer::Buffer(const string &fileName)
 {
@@ -19,6 +20,7 @@ char Buffer::nextChar()
 	if (result == '\n')
 	{
 		++lineCount;
+		preColumnCount = columnCount;
 		columnCount = 1;
 	}
 	else
@@ -42,18 +44,21 @@ char Buffer::nextNbChar()
 
 void Buffer::retract()
 {
-	// can NOT retract across lines
 	fin.seekg(-1, ios::cur);
 	--charCount;
 	--columnCount;
+	if (columnCount == 0){
+		//retract to a previous line
+		--lineCount;
+		columnCount = preColumnCount;
+	}
 }
 
 void Buffer::setError(const string &msg)
 {
 	msgs.push_back({Msg::MsgType::ERROR, lineCount, columnCount, msg});
 	//to next line
-	while (fin.get() != '\n' && !fin.eof())
-		;
+	toNextLine();
 }
 
 void Buffer::setWarning(const string &msg)
@@ -61,9 +66,27 @@ void Buffer::setWarning(const string &msg)
 	msgs.push_back({Msg::MsgType::WARNING, lineCount, columnCount, msg});
 }
 
-void Buffer::toNextLine(){
+void Buffer::toNextLine()
+{
 	char c = nextChar();
-	while (c != EOF && c != '\n'){
+	while (c != EOF && c != '\n')
+	{
 		c = nextChar();
+	}
+}
+
+void Buffer::showMsg() const
+{
+	for (int i = 0; i < msgs.size(); ++i)
+	{
+		if (msgs[i].type == Msg::MsgType::WARNING)
+		{
+			cout << "Warning";
+		}
+		else
+		{
+			cout << "Error";
+		}
+		cout << " - Line" << msgs[i].line << " - Column" << msgs[i].column << ": " << msgs[i].msg << endl;
 	}
 }

@@ -38,9 +38,6 @@ enum State
 	IS_INT_HEX,		 // has "0x"
 	IS_INT_OCT,		 //has "0o"
 	IS_INT_BI,			 // has '0b
-	IS_INT_EXP,		 // has 'e'
-	IS_INT_EXP_P,	 // has "e+"
-	IS_INT_EXP_N,	 // has "e-"
 	IS_DOUBLE_NORMAL,
 	IS_DOUBLE_EXP,		// has 'e'
 	IS_DOUBLE_EXP_P, // has "e+"
