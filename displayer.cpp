@@ -27,7 +27,8 @@ void Displayer::start()
 		case LTR_STR:
 			cout << _am.getStr();
 			break;
-			case LTR_INT : cout << _am.getInt();
+		case LTR_INT:
+			cout << _am.getInt();
 			break;
 		case LTR_L:
 			cout << _am.getLong();
@@ -41,6 +42,8 @@ void Displayer::start()
 		case LTR_DOUBLE:
 			cout << _am.getDouble();
 			break;
+		case PRE:
+			break;
 		default:
 			cout << "ERROR";
 		}
@@ -48,5 +51,5 @@ void Displayer::start()
 		cout << endl;
 		ct = _am.nextNotationType();
 	}
-	cout <<"END\n";
+	cout << "END\n";
 }

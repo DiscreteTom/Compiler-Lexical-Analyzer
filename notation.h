@@ -30,6 +30,7 @@ enum NotationType
 	LTR_LL,			// literal long long
 	LTR_FLOAT,	// literal float
 	LTR_DOUBLE, // literal double
+	PRE,// preprocess command
 	END					// reach file end
 };
 
@@ -118,8 +119,7 @@ enum Operator
 	CON_QUS, // ?
 	CON_COL, // :
 	MEMBER,	// .
-	POINTER, // ->
-	PRE			 // #
+	POINTER // ->
 };
 
 enum Bound

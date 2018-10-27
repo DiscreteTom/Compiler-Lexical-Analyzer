@@ -35,4 +35,5 @@ public:
 	void retract();
 	void setError(const string &msg);
 	void setWarning(const string &msg);
+	void toNextLine();
 };

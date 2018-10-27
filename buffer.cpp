@@ -60,3 +60,10 @@ void Buffer::setWarning(const string &msg)
 {
 	msgs.push_back({Msg::MsgType::WARNING, lineCount, columnCount, msg});
 }
+
+void Buffer::toNextLine(){
+	char c = nextChar();
+	while (c != EOF && c != '\n'){
+		c = nextChar();
+	}
+}

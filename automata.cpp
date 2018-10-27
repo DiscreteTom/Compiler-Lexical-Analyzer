@@ -91,8 +91,8 @@ NotationType Automata::nextNotationType()
 					state = HAS_DOT;
 					break;
 				case '#':
-					currentType = OP;
-					currentOperator = PRE;
+					currentType = PRE;
+					buf.toNextLine();
 					return currentType;
 				case '(':
 					currentType = BD;

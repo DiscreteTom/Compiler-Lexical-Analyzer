@@ -26,6 +26,8 @@ string toString(NotationType arg)
 		return "LTR_DOUBLE";
 	case END:
 		return "END";
+	case PRE:
+		return "PRE";
 	default:
 		return "";
 	}
@@ -193,8 +195,6 @@ string toString(Operator arg)
 		return ".";
 	case POINTER:
 		return "->";
-	case PRE:
-		return "#";
 	default:
 		return "";
 	}
