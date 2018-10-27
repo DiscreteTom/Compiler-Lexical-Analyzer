@@ -11,7 +11,7 @@ void Automata::setError(const string &msg)
 {
 	buf.setError(msg);
 	state = NORMAL;
-	num = decimal = 0;
+	num = decimal = point = exp = 0;
 	token = "";
 }
 
@@ -31,7 +31,7 @@ NotationType Automata::nextNotationType()
 	state = NORMAL;
 	bool flag = true; //continue loop
 	char c = 0;
-	num = decimal = 0;
+	num = decimal = point = exp = 0;
 	token = "";
 	while (flag && c != EOF)
 	{
@@ -474,10 +474,8 @@ NotationType Automata::nextNotationType()
 			c = buf.nextChar();
 			if (c >= '0' && c <= '9')
 			{
+				buf.retract();
 				state = IS_DOUBLE_NORMAL;
-				point = 0;
-				decimal = c - '0';
-				decimal /= 10;
 			}
 			else
 			{
@@ -914,7 +912,7 @@ NotationType Automata::nextNotationType()
 			while (c != EOF && (c >= '0' && c <= '9'))
 			{
 				double t = c - '0';
-				for (int i = 0; i < point; ++i)
+				for (int i = 0; i <= point; ++i)
 				{
 					t /= 10;
 				}
