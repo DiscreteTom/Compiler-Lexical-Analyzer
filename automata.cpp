@@ -15,10 +15,12 @@ void Automata::setError(const string &msg)
 	token = "";
 }
 
-long long Automata::octToDec(long long arg){
+long long Automata::octToDec(long long arg)
+{
 	long long result = 0;
 	long long e = 1;
-	while (arg > 0){
+	while (arg > 0)
+	{
 		result += (arg % 8) * e;
 		e *= 10;
 		arg /= 8;
@@ -178,6 +180,8 @@ NotationType Automata::nextNotationType()
 				if (c == '*')
 					state = TO_BE_NORMAL;
 			}
+			if (c == EOF)
+				return END;
 			break;
 		case SINGLE_NOTE:
 			while (state == SINGLE_NOTE && c != EOF)
@@ -186,13 +190,17 @@ NotationType Automata::nextNotationType()
 				if (c == '\n')
 					state = NORMAL;
 			}
+			if (c == EOF)
+				return END;
 			break;
 		case TO_BE_NORMAL:
 			c = buf.nextChar();
 			if (c == '/')
 				state = NORMAL;
-			else
+			else if (c != EOF)
 				state = MULTI_NOTE;
+			else // EOF
+				return END;
 			break;
 		case HAS_EQ:
 			c = buf.nextChar();
@@ -609,6 +617,10 @@ NotationType Automata::nextNotationType()
 			else if (c == '\\')
 			{
 				state = IS_LTR_STR_ESC;
+			}
+			else if (c == EOF)
+			{
+				setError("Wrong format for literal string");
 			}
 			break;
 		case IS_LTR_STR_ESC:
