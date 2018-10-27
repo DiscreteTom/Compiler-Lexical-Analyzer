@@ -43,6 +43,7 @@ void Displayer::start()
 			cout << _am.getDouble();
 			break;
 		case PRE:
+			cout << "PRE";
 			break;
 		default:
 			cout << "ERROR";

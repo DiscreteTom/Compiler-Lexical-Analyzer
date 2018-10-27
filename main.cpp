@@ -23,6 +23,7 @@ int main(int argc, char ** argv){
 		Automata automata(buf);
 		Displayer displayer(automata);
 		displayer.start();
+		buf.showMsg();
 	}
 	system("pause");
 }

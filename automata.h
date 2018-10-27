@@ -23,6 +23,7 @@ private:
 	Bound currentBound;
 
 	void setError(const string &msg);
+	long long octToDec(long long arg);
 
 public:
 	Automata(Buffer &buffer);

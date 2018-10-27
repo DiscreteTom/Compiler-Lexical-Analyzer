@@ -25,6 +25,7 @@ private:
 	ifstream fin;
 	int lineCount;
 	long long columnCount;
+	long long preColumnCount;
 	int charCount; //exclude comment
 	vector<Msg> msgs;
 
@@ -36,4 +37,5 @@ public:
 	void setError(const string &msg);
 	void setWarning(const string &msg);
 	void toNextLine();
+	void showMsg() const ;
 };
