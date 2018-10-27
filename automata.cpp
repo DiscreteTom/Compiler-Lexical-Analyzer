@@ -467,6 +467,7 @@ NotationType Automata::nextNotationType()
 			while ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_')
 			{
 				token += c;
+				c = buf.nextChar();
 			}
 			buf.retract();
 			currentType = NotationType::TOKEN;

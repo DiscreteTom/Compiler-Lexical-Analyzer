@@ -43,7 +43,7 @@ char Buffer::nextNbChar()
 void Buffer::retract()
 {
 	// can NOT retract across lines
-	fin.seekg(-1);
+	fin.seekg(-1, ios::cur);
 	--charCount;
 	--columnCount;
 }
