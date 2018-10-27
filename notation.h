@@ -1,5 +1,9 @@
 #pragma once
 
+#include <string>
+
+using namespace std;
+
 /**********************
  * 
  * there are 6 types of notation in C language
@@ -130,9 +134,7 @@ enum Bound
 	COMMA					// ,
 };
 
-// template <class T>
-// struct Notation
-// {
-// 	NotationType type;
-// 	T value;
-// };
+string toString(NotationType arg);
+string toString(Keyword arg);
+string toString(Operator arg);
+string toString(Bound arg);
