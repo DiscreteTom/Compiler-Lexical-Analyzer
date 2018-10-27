@@ -97,8 +97,8 @@ string toString(Keyword arg)
 		return "KEY_for";
 	case KEY_goto:
 		return "KEY_goto";
-	case KEY_i:
-		return "KEY_i";
+	case KEY_if:
+		return "KEY_if";
 	default:
 		return "";
 	}
@@ -149,7 +149,7 @@ string toString(Operator arg)
 	//========================= bitwise operators
 	case BIT_AND:
 		return "&";
-	case BIT_OR, :
+	case BIT_OR:
 		return "|";
 	case BIT_XOR:
 		return "^";
