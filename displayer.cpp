@@ -12,8 +12,14 @@ void Displayer::start()
 		cout << toString(ct) << ": ";
 		switch (ct)
 		{
-		case TOKEN:
-			cout << _am.getToken();
+		// case TOKEN:
+			// cout << _am.getToken();
+			// break;
+		case KEY:
+			cout << toString(_am.getKeyword());
+			break;
+		case ID:
+			cout << _am.getID();
 			break;
 		case OP:
 			cout << toString(_am.getOperator());

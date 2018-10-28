@@ -4,8 +4,12 @@ string toString(NotationType arg)
 {
 	switch (arg)
 	{
-	case TOKEN:
-		return "TOKEN";
+	case KEY:
+		return "KEYWORD";
+	case ID:
+		return "IDENTIFIER";
+	// case TOKEN:
+	// return "TOKEN";
 	case OP:
 		return "OPERATOR";
 	case BD:

@@ -4,6 +4,7 @@
 #include "state.h"
 #include "notation.h"
 #include "buffer.h"
+#include <map>
 
 using namespace std;
 
@@ -21,6 +22,7 @@ private:
 	Keyword currentKeyword;
 	Operator currentOperator;
 	Bound currentBound;
+	map<string, Keyword> keyMap;
 
 	void setError(const string &msg);
 	long long octToDec(long long arg);
@@ -30,7 +32,9 @@ public:
 
 	NotationType nextNotationType();
 
-	string getToken() const { return token; }
+	// string getToken() const { return token; }
+	string getID() const { return token; }
+	Keyword getKeyword() const { return currentKeyword; }
 	Operator getOperator() const { return currentOperator; }
 	Bound getBound() const { return currentBound; }
 
