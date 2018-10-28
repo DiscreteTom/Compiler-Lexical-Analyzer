@@ -13,13 +13,15 @@ void Displayer::start()
 		switch (ct)
 		{
 		// case TOKEN:
-			// cout << _am.getToken();
-			// break;
+		// cout << _am.getToken();
+		// break;
 		case KEY:
 			cout << toString(_am.getKeyword());
+			keywordCounter.insert(toString(_am.getKeyword()));
 			break;
 		case ID:
 			cout << _am.getID();
+			idCounter.insert(_am.getID());
 			break;
 		case OP:
 			cout << toString(_am.getOperator());
@@ -32,6 +34,7 @@ void Displayer::start()
 			break;
 		case LTR_STR:
 			cout << _am.getStr();
+			strCounter.insert(_am.getStr());
 			break;
 		case LTR_INT:
 			cout << _am.getInt();
@@ -59,4 +62,17 @@ void Displayer::start()
 		ct = _am.nextNotationType();
 	}
 	cout << "END\n";
+}
+
+void Displayer::showCounter() const
+{
+	cout << endl;
+	cout << "Keyword occurrences:\n";
+	keywordCounter.show();
+	cout << endl
+			 << "Identifier occurrences:\n";
+	idCounter.show();
+	cout << endl
+			 << "Literal string occurrences:\n";
+	strCounter.show();
 }

@@ -42,69 +42,69 @@ string toString(Keyword arg)
 	switch (arg)
 	{
 	case KEY_auto:
-		return "KEY_auto";
+		return "auto";
 	case KEY_break:
-		return "KEY_break";
+		return "break";
 	case KEY_case:
-		return "KEY_case";
+		return "case";
 	case KEY_char:
-		return "KEY_char";
+		return "char";
 	case KEY_const:
-		return "KEY_const";
+		return "const";
 	case KEY_continue:
-		return "KEY_continue";
+		return "continue";
 	case KEY_default:
-		return "KEY_default";
+		return "default";
 	case KEY_do:
-		return "KEY_do";
+		return "do";
 	case KEY_int:
-		return "KEY_int";
+		return "int";
 	case KEY_long:
-		return "KEY_long";
+		return "long";
 	case KEY_register:
-		return "KEY_register";
+		return "register";
 	case KEY_return:
-		return "KEY_return";
+		return "return";
 	case KEY_short:
-		return "KEY_short";
+		return "short";
 	case KEY_signed:
-		return "KEY_signed";
+		return "signed";
 	case KEY_sizeof:
-		return "KEY_sizeof";
+		return "sizeof";
 	case KEY_static:
-		return "KEY_static";
+		return "static";
 	case KEY_struct:
-		return "KEY_struct";
+		return "struct";
 	case KEY_switch:
-		return "KEY_switch";
+		return "switch";
 	case KEY_typedef:
-		return "KEY_typedef";
+		return "typedef";
 	case KEY_union:
-		return "KEY_union";
+		return "union";
 	case KEY_unsigned:
-		return "KEY_unsigned";
+		return "unsigned";
 	case KEY_void:
-		return "KEY_void";
+		return "void";
 	case KEY_volatile:
-		return "KEY_volatile";
+		return "volatile";
 	case KEY_while:
-		return "KEY_while";
+		return "while";
 	case KEY_double:
-		return "KEY_double";
+		return "double";
 	case KEY_else:
-		return "KEY_else";
+		return "else";
 	case KEY_enum:
-		return "KEY_enum";
+		return "enum";
 	case KEY_extern:
-		return "KEY_extern";
+		return "extern";
 	case KEY_float:
-		return "KEY_float";
+		return "float";
 	case KEY_for:
-		return "KEY_for";
+		return "for";
 	case KEY_goto:
-		return "KEY_goto";
+		return "goto";
 	case KEY_if:
-		return "KEY_if";
+		return "if";
 	default:
 		return "";
 	}
