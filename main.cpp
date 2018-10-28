@@ -24,6 +24,8 @@ int main(int argc, char ** argv){
 		Displayer displayer(automata);
 		displayer.start();
 		buf.showMsg();
+		displayer.showCounter();
+		buf.showCounter();
 	}
 	system("pause");
 }

@@ -44,10 +44,12 @@ char Buffer::nextNbChar()
 
 void Buffer::retract()
 {
+	if (!fin.eof())
+		--charCount;
 	fin.seekg(-1, ios::cur);
-	--charCount;
 	--columnCount;
-	if (columnCount == 0){
+	if (columnCount == 0)
+	{
 		//retract to a previous line
 		--lineCount;
 		columnCount = preColumnCount;
@@ -89,4 +91,11 @@ void Buffer::showMsg() const
 		}
 		cout << " - Line" << msgs[i].line << " - Column" << msgs[i].column << ": " << msgs[i].msg << endl;
 	}
+}
+
+void Buffer::showCounter() const
+{
+	cout << endl;
+	cout << "Line count: " << lineCount << endl;
+	cout << "Character count: " << charCount << endl;
 }

@@ -38,4 +38,5 @@ public:
 	void setWarning(const string &msg);
 	void toNextLine();
 	void showMsg() const ;
+	void showCounter() const;
 };
