@@ -5,6 +5,38 @@ Automata::Automata(Buffer &buffer) : buf(buffer)
 {
 	state = NORMAL;
 	num = decimal = 0;
+	keyMap.insert(make_pair("auto", KEY_auto));
+	keyMap.insert(make_pair("break", KEY_break));
+	keyMap.insert(make_pair("case", KEY_case));
+	keyMap.insert(make_pair("char", KEY_char));
+	keyMap.insert(make_pair("const", KEY_const));
+	keyMap.insert(make_pair("continue", KEY_continue));
+	keyMap.insert(make_pair("default", KEY_default));
+	keyMap.insert(make_pair("do", KEY_do));
+	keyMap.insert(make_pair("int", KEY_int));
+	keyMap.insert(make_pair("long", KEY_long));
+	keyMap.insert(make_pair("register", KEY_register));
+	keyMap.insert(make_pair("return", KEY_return));
+	keyMap.insert(make_pair("short", KEY_short));
+	keyMap.insert(make_pair("signed", KEY_signed));
+	keyMap.insert(make_pair("sizeof", KEY_sizeof));
+	keyMap.insert(make_pair("static", KEY_static));
+	keyMap.insert(make_pair("struct", KEY_struct));
+	keyMap.insert(make_pair("switch", KEY_switch));
+	keyMap.insert(make_pair("typedef", KEY_typedef));
+	keyMap.insert(make_pair("union", KEY_union));
+	keyMap.insert(make_pair("unsigned", KEY_unsigned));
+	keyMap.insert(make_pair("void", KEY_void));
+	keyMap.insert(make_pair("volatile", KEY_volatile));
+	keyMap.insert(make_pair("while", KEY_while));
+	keyMap.insert(make_pair("double", KEY_double));
+	keyMap.insert(make_pair("else", KEY_else));
+	keyMap.insert(make_pair("enum", KEY_enum));
+	keyMap.insert(make_pair("extern", KEY_extern));
+	keyMap.insert(make_pair("float", KEY_float));
+	keyMap.insert(make_pair("for", KEY_for));
+	keyMap.insert(make_pair("goto", KEY_goto));
+	keyMap.insert(make_pair("if", KEY_if));
 }
 
 void Automata::setError(const string &msg)
@@ -502,7 +534,19 @@ NotationType Automata::nextNotationType()
 				c = buf.nextChar();
 			}
 			buf.retract();
-			currentType = NotationType::TOKEN;
+			// currentType = NotationType::TOKEN;
+			{
+				auto i = keyMap.find(token);
+				if (i != keyMap.end())
+				{
+					currentType = KEY;
+					currentKeyword = i->second;
+				}
+				else
+				{
+					currentType = ID;
+				}
+			}
 			return currentType;
 			break;
 		case IS_LTR_CHAR:

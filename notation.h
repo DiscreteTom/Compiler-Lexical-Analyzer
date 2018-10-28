@@ -18,9 +18,9 @@ using namespace std;
 
 enum NotationType
 {
-	// KEY,			 // keyword
-	// ID,				 // identifier
-	TOKEN,			// token, include keyword and id
+	KEY,			 // keyword
+	ID,				 // identifier
+	// TOKEN,			// token, include keyword and id
 	OP,					// operator
 	BD,					// bound
 	LTR_CHAR,		// literal char
