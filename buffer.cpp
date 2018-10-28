@@ -97,5 +97,6 @@ void Buffer::showCounter() const
 {
 	cout << endl;
 	cout << "Line count: " << lineCount << endl;
-	cout << "Character count: " << charCount << endl;
+	cout << "Character count: " << charCount << endl
+			 << endl;
 }

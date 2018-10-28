@@ -19,8 +19,11 @@ void Counter::insert(const string &str)
 
 void Counter::show() const
 {
+	if (!strMap.size())
+		cout << "NONE";
 	for (auto i : strMap)
 	{
-		cout << i.first << ": " << count[i.second] << endl;
+		cout << '"' << i.first << "\": " << count[i.second] << endl;
 	}
+	cout << endl;
 }
