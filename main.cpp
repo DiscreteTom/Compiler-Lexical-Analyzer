@@ -16,10 +16,12 @@ int main(int argc, char **argv)
 	vector<string> fileNames;
 	for (int i = 1; i < argc; ++i)
 	{
+		//get all file names
 		fileNames.push_back(argv[i]);
 	}
 	if (argc == 1)
 	{
+		//no fileName parameter
 		showHelp();
 	}
 	for (int i = 0; i < fileNames.size(); ++i)
@@ -33,8 +35,7 @@ int main(int argc, char **argv)
 		displayer.showCounter();
 		buf.showCounter();
 	}
-	if (argc == 1)
-		system("pause");
+	system("pause");
 }
 
 void showDeveloper()

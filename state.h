@@ -28,18 +28,18 @@ enum State
 	IS_TOKEN,
 	//====================== literal char and string
 	IS_LTR_CHAR,
-	IS_LTR_CHAR_ESC,		// escape character
-	IS_LTR_CHAR_1, //has one char
+	IS_LTR_CHAR_ESC, // escape character
+	IS_LTR_CHAR_1,	 //has one char
 	IS_LTR_STR,
 	IS_LTR_STR_ESC,
 	//====================== literal number
 	IS_INT_NORMAL,
 	IS_INT_FIRST_0, // has '0', maybe hex or oct or binary
-	IS_INT_HEX,		 // has "0x"
-	IS_INT_OCT,		 //has "0o"
-	IS_INT_BI,			 // has '0b
+	IS_INT_HEX,			// has "0x"
+	IS_INT_OCT,			//has "0o"
+	IS_INT_BI,			// has '0b
 	IS_DOUBLE_NORMAL,
-	IS_DOUBLE_EXP,		// has 'e'
+	IS_DOUBLE_EXP,	 // has 'e'
 	IS_DOUBLE_EXP_P, // has "e+"
 	IS_DOUBLE_EXP_N	//has "e-"
 };

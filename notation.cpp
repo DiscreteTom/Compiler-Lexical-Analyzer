@@ -8,8 +8,6 @@ string toString(NotationType arg)
 		return "KEYWORD";
 	case ID:
 		return "IDENTIFIER";
-	// case TOKEN:
-	// return "TOKEN";
 	case OP:
 		return "OPERATOR";
 	case BD:

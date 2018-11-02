@@ -18,8 +18,8 @@ using namespace std;
 
 enum NotationType
 {
-	KEY,			 // keyword
-	ID,				 // identifier
+	KEY, // keyword
+	ID,	// identifier
 	// TOKEN,			// token, include keyword and id
 	OP,					// operator
 	BD,					// bound
@@ -30,7 +30,7 @@ enum NotationType
 	LTR_LL,			// literal long long
 	LTR_FLOAT,	// literal float
 	LTR_DOUBLE, // literal double
-	PRE,// preprocess command
+	PRE,				// preprocess command
 	END					// reach file end
 };
 
@@ -119,7 +119,7 @@ enum Operator
 	CON_QUS, // ?
 	CON_COL, // :
 	MEMBER,	// .
-	POINTER // ->
+	POINTER	// ->
 };
 
 enum Bound

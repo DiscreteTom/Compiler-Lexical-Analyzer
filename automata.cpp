@@ -5,6 +5,8 @@ Automata::Automata(Buffer &buffer) : buf(buffer)
 {
 	state = NORMAL;
 	num = decimal = 0;
+
+	//init keyMap
 	keyMap.insert(make_pair("auto", KEY_auto));
 	keyMap.insert(make_pair("break", KEY_break));
 	keyMap.insert(make_pair("case", KEY_case));
@@ -42,6 +44,7 @@ Automata::Automata(Buffer &buffer) : buf(buffer)
 void Automata::setError(const string &msg)
 {
 	buf.setError(msg);
+	//reset automata
 	state = NORMAL;
 	num = decimal = point = exp = 0;
 	token = "";
@@ -49,6 +52,9 @@ void Automata::setError(const string &msg)
 
 long long Automata::octToDec(long long arg)
 {
+	//if 'e' follows an octopus number like 056e3
+	//then parse it as a decimal number instead of a octopus number
+	//so we need to re-parse it from octopus to decimal
 	long long result = 0;
 	long long e = 1;
 	while (arg > 0)
@@ -64,7 +70,7 @@ NotationType Automata::nextNotationType()
 {
 	state = NORMAL;
 	bool flag = true; //continue loop
-	char c = 0;
+	char c = 0;				// current char
 	num = decimal = point = exp = 0;
 	token = "";
 	while (flag && c != EOF)
@@ -139,7 +145,7 @@ NotationType Automata::nextNotationType()
 					break;
 				case '#':
 					currentType = PRE;
-					buf.toNextLine();
+					buf.toNextLine(); //discard this line
 					return currentType;
 				case '(':
 					currentType = BD;
@@ -201,6 +207,7 @@ NotationType Automata::nextNotationType()
 					token += c;
 					token += "' in this file";
 					setError(token);
+					token = "";
 					break;
 				}
 			}
