@@ -64,7 +64,7 @@ void Buffer::retract()
 void Buffer::setError(const string &msg)
 {
 	msgs.push_back({Msg::MsgType::ERROR, lineCount, columnCount, msg});
-	//to next line
+	// discard this line
 	toNextLine();
 }
 

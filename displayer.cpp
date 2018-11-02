@@ -12,9 +12,6 @@ void Displayer::start()
 		cout << toString(ct) << ": ";
 		switch (ct)
 		{
-		// case TOKEN:
-		// cout << _am.getToken();
-		// break;
 		case KEY:
 			cout << toString(_am.getKeyword());
 			keywordCounter.insert(toString(_am.getKeyword()));
