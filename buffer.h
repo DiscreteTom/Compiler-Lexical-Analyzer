@@ -28,6 +28,8 @@ private:
 	long long preColumnCount; // column count of the previous line
 	long long charCount;			//include comment
 	vector<Msg> msgs;					// include warnings and errors
+	bool thisLineHasNbChar;
+	bool thisIsTheFirstNbChar;
 
 public:
 	Buffer(const string &fileName);
@@ -38,6 +40,7 @@ public:
 	void setError(const string &msg);
 	void setWarning(const string &msg);
 	void toNextLine();
+	bool isPre();
 	void showMsg() const;
 	void showCounter() const;
 };

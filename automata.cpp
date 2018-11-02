@@ -144,9 +144,14 @@ NotationType Automata::nextNotationType()
 					state = HAS_DOT;
 					break;
 				case '#':
-					currentType = PRE;
-					buf.toNextLine(); //discard this line
-					return currentType;
+					if (buf.isPre()) {
+						currentType = PRE;
+						buf.toNextLine(); //discard this line
+						return currentType;
+					} else {
+						setError("Preprocessing command must be the first char in a line");
+					}
+					break;
 				case '(':
 					currentType = BD;
 					currentBound = L_parenthese;
@@ -566,7 +571,7 @@ NotationType Automata::nextNotationType()
 			{
 				state = IS_LTR_CHAR_ESC;
 			}
-			else if (c >= 32 && c <= 126)
+			else if (c >= 32 && c <= 126)//valid char in ASCII
 			{
 				state = IS_LTR_CHAR_1;
 				token = c;
@@ -654,7 +659,7 @@ NotationType Automata::nextNotationType()
 			break;
 		case IS_LTR_STR:
 			c = buf.nextChar();
-			while (c != EOF && c != '\"' && c != '\\')
+			while (c != EOF && c >= 32 && c <= 126 && c != '\"' && c != '\\' && c != '\n')//valid char in ASCII
 			{
 				token += c;
 				c = buf.nextChar();
@@ -669,8 +674,9 @@ NotationType Automata::nextNotationType()
 			{
 				state = IS_LTR_STR_ESC;
 			}
-			else if (c == EOF)
+			else
 			{
+				buf.retract();//maybe retract to the previous line when c == '\n'
 				setError("Wrong format for literal string");
 			}
 			break;
@@ -793,7 +799,7 @@ NotationType Automata::nextNotationType()
 				buf.retract();
 				state = IS_INT_OCT;
 			}
-			else if (c == '8' && c == '9')
+			else if (c == '8' || c == '9')
 			{
 				setError("Literal Octopus number can NOT contain '8' and '9'");
 			}
@@ -812,22 +818,28 @@ NotationType Automata::nextNotationType()
 			break;
 		case IS_INT_HEX:
 			c = buf.nextChar();
-			if (c >= '0' && c <= '9')
-			{
-				num *= 16;
-				num += c - '0';
+			while ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F')){
+				if (c >= '0' && c <= '9')
+				{
+					num *= 16;
+					num += c - '0';
+				}
+				else if (c >= 'A' && c <= 'F')
+				{
+					num *= 16;
+					num += c - 'A' + 10;
+				}
+				else if (c >= 'a' && c <= 'f')
+				{
+					num *= 16;
+					num += c - 'z' + 10;
+				}
+				if (num < 0){
+					break;
+				}
+				c = buf.nextChar();
 			}
-			else if (c >= 'A' && c <= 'F')
-			{
-				num *= 16;
-				num += c - 'A' + 10;
-			}
-			else if (c >= 'a' && c <= 'f')
-			{
-				num *= 16;
-				num += c - 'z' + 10;
-			}
-			else if (c == '.')
+			if (c == '.')
 			{
 				setError("Literal hexical number can NOT be decimal");
 			}
@@ -880,7 +892,8 @@ NotationType Automata::nextNotationType()
 			}
 			else if (c == '.')
 			{
-				setError("Literal octopus number can NOT be decimal");
+				decimal = octToDec(num);
+				state = IS_DOUBLE_EXP;
 			}
 			else if (c == 'e')
 			{
