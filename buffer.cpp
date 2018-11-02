@@ -8,6 +8,8 @@ Buffer::Buffer(const string &fileName)
 	lineCount = 1;
 	columnCount = 1;
 	charCount = 0;
+	thisLineHasNbChar = false;
+	thisIsTheFirstNbChar = false;
 }
 
 Buffer::~Buffer()
@@ -24,6 +26,8 @@ char Buffer::nextChar()
 		result = fin.get();
 	if (result == '\n')
 	{
+		thisIsTheFirstNbChar = false;
+		thisLineHasNbChar = false;
 		++lineCount;
 		preColumnCount = columnCount;
 		columnCount = 1;
@@ -31,6 +35,14 @@ char Buffer::nextChar()
 	else
 	{
 		++columnCount;
+	}
+	if (result != '\n' && result != ' ' && result != '\t') {
+		if (!thisLineHasNbChar) {
+			thisLineHasNbChar = true;
+			thisIsTheFirstNbChar = true;
+		} else {
+			thisIsTheFirstNbChar = false;
+		}
 	}
 	if (result != EOF)
 		++charCount;
@@ -80,6 +92,12 @@ void Buffer::toNextLine()
 	{
 		c = nextChar();
 	}
+}
+
+bool Buffer::isPre()
+{
+	if (thisLineHasNbChar && thisIsTheFirstNbChar)return true;
+	return false;
 }
 
 void Buffer::showMsg() const
