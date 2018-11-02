@@ -17,20 +17,21 @@ private:
 			WARNING
 		};
 		MsgType type;
-		int line;
+		long long line;
 		long long column;
 		string msg;
 	};
 
 	ifstream fin;
-	int lineCount;
+	long long lineCount;
 	long long columnCount;
 	long long preColumnCount;
-	int charCount; //exclude comment
+	long long charCount; //include comment
 	vector<Msg> msgs;
 
 public:
 	Buffer(const string &fileName);
+	~Buffer();
 	char nextChar();
 	char nextNbChar();
 	void retract();
