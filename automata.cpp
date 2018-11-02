@@ -892,7 +892,8 @@ NotationType Automata::nextNotationType()
 			}
 			else if (c == '.')
 			{
-				setError("Literal octopus number can NOT be decimal");
+				decimal = octToDec(num);
+				state = IS_DOUBLE_EXP;
 			}
 			else if (c == 'e')
 			{
