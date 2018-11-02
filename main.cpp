@@ -33,7 +33,8 @@ int main(int argc, char **argv)
 		displayer.showCounter();
 		buf.showCounter();
 	}
-	system("pause");
+	if (argc == 1)
+		system("pause");
 }
 
 void showDeveloper()

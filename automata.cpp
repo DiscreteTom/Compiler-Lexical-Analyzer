@@ -261,7 +261,7 @@ NotationType Automata::nextNotationType()
 				state = NORMAL;
 				return currentType;
 			case '>':
-				state = HAS_LS;
+				state = HAS_RS;
 				break;
 			default:
 				currentType = OP;
@@ -280,7 +280,7 @@ NotationType Automata::nextNotationType()
 				currentOperator = REL_LE;
 				state = NORMAL;
 				return currentType;
-			case '>':
+			case '<':
 				state = HAS_RS;
 				break;
 			default:

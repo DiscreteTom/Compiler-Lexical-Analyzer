@@ -10,6 +10,11 @@ Buffer::Buffer(const string &fileName)
 	charCount = 0;
 }
 
+Buffer::~Buffer()
+{
+	fin.close();
+}
+
 char Buffer::nextChar()
 {
 	char result;
